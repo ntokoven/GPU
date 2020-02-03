@@ -24,10 +24,19 @@ static void checkCudaCall(cudaError_t result) {
     }
 }
 
+/*
+for (j=0; j<5; j++) {
+    for (i=0; i<n; i++) {
+	result[i] = result[i]+a[i]*b[i];
+    }
+  }
+*/
 
 __global__ void vectorTransformKernel(float* A, float* B, float* Result) {
 // insert operation here
-
+    int i = threadIdx.x + blockDim.x * blockIdx.x;
+    // for(int j=0; j<5; j++)
+    Result[i] = 5*(Result[i] + A[i] * B[i]);
 }
 
 void vectorTransformCuda(int n, float* a, float* b, float* result) {
